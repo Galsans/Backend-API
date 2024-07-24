@@ -22,7 +22,18 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'divisi_id',
     ];
+
+    /**
+     * Get the divisi that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function divisi()
+    {
+        return $this->belongsTo(Divisi::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

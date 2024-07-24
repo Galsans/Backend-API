@@ -70,7 +70,7 @@ class AuthController extends Controller
 
     public function dataUser()
     {
-        $user = User::all();
+        $user = User::with('divisi')->get();
         return response()->json([
             'msg' => 'data user',
             'data' => $user
