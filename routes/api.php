@@ -28,3 +28,4 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('datauser', [AuthController::class, 'dataUser']);
 Route::resource('divisi', DivisiController::class);
 Route::resource('department', DepartmentControlller::class);
+Route::get('department/restore/{id}', [DepartmentControlller::class, 'restore']);

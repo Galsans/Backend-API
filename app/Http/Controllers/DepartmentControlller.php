@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DepartmentControlller extends Controller
 {
@@ -32,7 +33,20 @@ class DepartmentControlller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = Validator::make($request->all(), [
+            'name' => 'required',
+            'kode' => 'required|max_digits:3',
+        ]);
+        if ($validate->fails()) {
+            return response()->json([
+                'msg' => $validate->errors()
+            ], 422);
+        }
+        $department = Department::create($request->all());
+        return response()->json([
+            'msg' => "data berhasil disimpan",
+            'data' => $department
+        ], 200);
     }
 
     /**
@@ -40,7 +54,15 @@ class DepartmentControlller extends Controller
      */
     public function show(string $id)
     {
-        //
+        $department = Department::find($id);
+        if ($department == null) {
+            return response()->json([
+                'msg' => 'data tidak ditemukan'
+            ], 404);
+        }
+        return response()->json([
+            'data' => $department
+        ], 200);
     }
 
     /**
@@ -56,7 +78,20 @@ class DepartmentControlller extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate = Validator::make($request->all(), [
+            'kode' => 'max_digits:3',
+        ]);
+        if ($validate->fails()) {
+            return response()->json([
+                'msg' => $validate->errors()
+            ], 422);
+        }
+        $department = Department::find($id);
+        $department->update($request->all());
+        return response()->json([
+            'msg' => "data berhasil diubah",
+            'data' => $department
+        ], 200);
     }
 
     /**
@@ -64,6 +99,33 @@ class DepartmentControlller extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $department = Department::find($id);
+        if ($department == null) {
+            return response()->json([
+                'msg' => 'data tidak ditemukan'
+            ], 404);
+        } else {
+            $department->delete();
+            return response()->json([
+                'msg' => "data berhasil dihapus"
+            ], 200);
+        }
+    }
+
+    public function restore($id)
+    {
+        $department = Department::withTrashed()->find($id);
+
+        if ($department) {
+            $department->restore();
+            return response()->json([
+                'msg' => 'Department berhasil dikembalikan',
+                'data' => $department
+            ], 200);
+        } else {
+            return response()->json([
+                'msg' => 'Department tidak ditemukan',
+            ], 404);
+        }
     }
 }
