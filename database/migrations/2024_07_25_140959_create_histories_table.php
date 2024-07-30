@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('histories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('kode', 2);
+            $table->foreignId('barang_id')->references('id')->on('barangs')->onDelete('cascade');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->text('spek_upgraded');
+            $table->text('lokasi');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('histories');
     }
 };

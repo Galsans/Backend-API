@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('divisi_id')->references('id')->on('divisis')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes(); // Menambahkan kolom deleted_at
+            $table->softDeletes();
         });
     }
 

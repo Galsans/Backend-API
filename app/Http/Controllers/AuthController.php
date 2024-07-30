@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -15,8 +16,10 @@ class AuthController extends Controller
             'name' => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required',
+            'kode' => 'nullable',
             'divisi_id' => 'required|exists:divisis,id',
         ]);
+
         if ($validate->fails()) {
             return response()->json([
                 'msg' => $validate->errors()
@@ -25,6 +28,7 @@ class AuthController extends Controller
 
         $input = $request->all();
         $input['password'] = Hash::make($request->password);
+        $input['kode'] = Str::upper(Str::random(5));
 
         $user = User::create($input);
 
@@ -46,6 +50,7 @@ class AuthController extends Controller
                 'msg' => $validate->errors()
             ], 422);
         }
+
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
@@ -66,15 +71,6 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json([
             'msg' => 'anda berhasil logout'
-        ], 200);
-    }
-
-    public function dataUser()
-    {
-        $user = User::with('divisi')->get();
-        return response()->json([
-            'msg' => 'data user',
-            'data' => $user
         ], 200);
     }
 }

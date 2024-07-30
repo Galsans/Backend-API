@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('kode', 3);
+            $table->string('kode', 3)->unique();
             $table->timestamps();
-            $table->softDeletes(); // Menambahkan kolom deleted_at
+            $table->softDeletes();
         });
     }
 

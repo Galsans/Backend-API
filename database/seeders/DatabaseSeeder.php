@@ -9,6 +9,7 @@ use App\Models\Divisi;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -46,6 +47,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(DivisiSeeder::class);
+        $this->call(CategorySeeder::class);
 
         // Data User
         User::create([
@@ -53,7 +55,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
             'divisi_id' => 1,
-            'role' => 'admin'
+            'role' => 'admin',
+            'kode' => Str::upper(Str::random(5))
         ]);
 
         User::create([
@@ -61,7 +64,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'user@gmail.com',
             'password' => Hash::make('password'),
             'divisi_id' => 1,
-            'role' => 'user'
+            'role' => 'user',
+            'kode' => Str::upper(Str::random(5))
         ]);
     }
 }
