@@ -20,7 +20,7 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barang = Barang::with(['category', 'divisi.departments', 'history.barang', 'history.user'])->get();
+        $barang = Barang::with(['category', 'divisi.departments', 'history.user'])->get();
         if ($barang->isEmpty()) {
             return response()->json([
                 'msg' => 'data belum ada'
@@ -276,11 +276,11 @@ class BarangController extends Controller
         // Misalnya, kita cek tabel `request` yang mungkin memiliki kolom `department_id`
         // Sesuaikan dengan relasi yang ada di aplikasi Anda
 
-        // if ($barang->history()->exists()) {  // Ganti `divisi()` dengan relasi yang sesuai
-        //     return response()->json([
-        //         'msg' => 'Data tidak dapat dihapus karena ada relasi dengan tabel lain'
-        //     ], 400);  // 400 Bad Request lebih tepat untuk kondisi ini
-        // }
+        if ($barang->history()->exists()) {  // Ganti `divisi()` dengan relasi yang sesuai
+            return response()->json([
+                'msg' => 'Data tidak dapat dihapus karena ada relasi dengan tabel lain'
+            ], 400);  // 400 Bad Request lebih tepat untuk kondisi ini
+        }
 
         // Hapus barang
         $barang->delete();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -99,5 +100,21 @@ class UserContoller extends Controller
                 'msg' => 'User tidak ditemukan',
             ], 404);
         }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function showBarang(string $id)
+    {
+        $barang = Barang::with(['category', 'divisi'])->find($id);
+        if ($barang == null) {
+            return response()->json([
+                'msg' => 'data tidak ditemukan'
+            ], 404);
+        }
+        return response()->json([
+            'data' => $barang
+        ], 200);
     }
 }

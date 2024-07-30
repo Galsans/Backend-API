@@ -34,7 +34,7 @@ class Barang extends Model
      */
     public function history()
     {
-        return $this->hasOne(History::class)->with('barang', 'user')
+        return $this->hasOne(History::class)->with('user')
             ->latest('created_at'); // Mengambil data terbaru berdasarkan created_at
     }
 }

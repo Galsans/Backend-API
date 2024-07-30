@@ -111,6 +111,16 @@ class HistoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $history = History::find($id);
+        if ($history == null) {
+            return response()->json([
+                'msg' => 'data tida ditemukan'
+            ], 404);
+        }
+        $history->delete();
+        return response()->json([
+            'msg' => 'data berhasil dihapus',
+            'data' => $history
+        ], 200);
     }
 }

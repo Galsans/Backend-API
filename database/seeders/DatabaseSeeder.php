@@ -25,23 +25,23 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $department1 = Department::create([
+        Department::create([
             'name' => 'Pemberitaan',
             'kode' => 'RED',
         ]);
-        $department2 = Department::create([
+        Department::create([
             'name' => 'Artistik & Multimedia',
             'kode' => 'ARM',
         ]);
-        $department3 = Department::create([
+        Department::create([
             'name' => 'HR-GA & IT',
             'kode' => 'HGI',
         ]);
-        $department4 = Department::create([
+        Department::create([
             'name' => 'Keuangan',
             'kode' => 'KAP',
         ]);
-        $department5 = Department::create([
+        Department::create([
             'name' => 'Sales & Marketing',
             'kode' => 'SNM',
         ]);
